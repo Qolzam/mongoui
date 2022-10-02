@@ -4,7 +4,7 @@
   "description": "A Web GUI to administer MongoDB",
   "author": "Arash Hatami <hatamiarash7@gmail.com>",
   "private": false,
-  "main": "electron.js",
+  "main": "app.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/hatamiarash7/MongoDB_Admin"
@@ -15,10 +15,6 @@
   "scripts": {
     "start": "node app.js",
     "test": "mocha -R spec --bail --exit ./tests/tests.js",
-    "packageOsx": "electron-packager ./ MongoDB_Admin --out=releases/ --platform=darwin --arch=x64 --prune --overwrite --ignore=releases/* --icon=public/logo.icns",
-    "packageWin32": "electron-packager ./ MongoDB_Admin --out=releases/ --platform=win32 --arch=ia32 --prune --overwrite --ignore=releases/* --icon=public/logo.ico",
-    "packageWin64": "electron-packager ./ MongoDB_Admin --out=releases/ --platform=win32 --arch=x64 --prune --overwrite --ignore=releases/* --icon=public/logo.ico",
-    "packageLinux": "electron-packager ./ MongoDB_Admin --out=releases/ --platform=linux --arch=ia32 --prune --overwrite --ignore=releases/* --icon=public/logo.ico",
     "clean": "rm -rf node_modules",
     "reinstall": "npm run clean && npm install",
     "rebuild": "npm run clean && npm install && npm run build"
@@ -42,7 +38,6 @@
     "document",
     "collection",
     "express",
-    "electron",
     "open source",
     "mongo-admin",
     "mongoadmin"
@@ -80,7 +75,6 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "colors": "^1.4.0",
-    "electron-prebuilt": "^1.2.8",
     "eslint": "^4.18.2",
     "eslint-config-standard": "^5.3.5",
     "eslint-plugin-promise": "^2.0.0",

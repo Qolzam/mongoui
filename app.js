@@ -7,12 +7,15 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var handlebars = require('express-handlebars');
+let handlebars = require('express-handlebars');
 var nconf = require('nconf');
 var session = require('express-session');
 var async = require('async');
 var moment = require('moment');
 var fs = require('fs');
+var connPool = require('./connections');
+var monitoring = require('./monitoring');
+const { getAppRootDir } = require('./utils/helper');
 
 // Define routes
 var indexRoute = require('./routes/index');
@@ -22,31 +25,26 @@ var docRoute = require('./routes/document');
 var dbRoute = require('./routes/database');
 var collectionRoute = require('./routes/collection');
 
-// set the base dir to __dirname when running as webapp and electron path if running as electron app
-var dir_base = __dirname;
-if(process.versions['electron']){
-    dir_base = path.join(process.resourcesPath.toString(), 'app/');
-}
-
 var app = express();
+const rootDir = getAppRootDir()
 
 // setup the translation
 var i18n = new (require('i18n-2'))({
     locales: ['en'],
-    directory: path.join(dir_base, 'locales/')
+    directory: path.join(rootDir, 'locales/')
 });
 
 // setup DB for server stats
 var Datastore = require('nedb');
-var db = new Datastore({filename: path.join(dir_base, 'data/dbStats.db'), autoload: true});
+var db = new Datastore({filename: path.join(rootDir, 'data/dbStats.db'), autoload: true});
 
 // view engine setup
-app.set('views', path.join(dir_base, 'views/'));
-app.engine('hbs', handlebars({extname: 'hbs', defaultLayout: path.join(dir_base, 'views/layouts/layout.hbs')}));
+app.set('views', path.join(rootDir, 'views/'));
+app.engine('hbs', handlebars({extname: 'hbs', defaultLayout: path.join(rootDir, 'views/layouts/layout.hbs')}));
 app.set('view engine', 'hbs');
 
 // Check existence of backups dir, create if nothing
-if(!fs.existsSync(path.join(dir_base, 'backups'))) fs.mkdirSync(path.join(dir_base, 'backups'));
+if(!fs.existsSync(path.join(rootDir, 'backups'))) fs.mkdirSync(path.join(rootDir, 'backups'));
 
 // helpers for the handlebars templating platform
 handlebars = handlebars.create({
@@ -91,7 +89,7 @@ handlebars = handlebars.create({
 
 // setup nconf to read in the file
 // create config dir and blank files if they dont exist
-var dir_config = path.join(dir_base, 'config/');
+var dir_config = path.join(rootDir, 'config/');
 var config_connections = path.join(dir_config, 'config.json');
 var config_app = path.join(dir_config, 'app.json');
 
@@ -188,14 +186,14 @@ app.use(session({
 }));
 
 // front-end modules loaded from NPM
-app.use(app_context + '/static', express.static(path.join(dir_base, 'public/')));
-app.use(app_context + '/font-awesome', express.static(path.join(dir_base, 'node_modules/font-awesome/')));
-app.use(app_context + '/jquery', express.static(path.join(dir_base, 'node_modules/jquery/dist/')));
-app.use(app_context + '/bootstrap', express.static(path.join(dir_base, 'node_modules/bootstrap/dist/')));
-app.use(app_context + '/css', express.static(path.join(dir_base, 'public/css')));
-app.use(app_context + '/fonts', express.static(path.join(dir_base, 'public/fonts')));
-app.use(app_context + '/js', express.static(path.join(dir_base, 'public/js')));
-app.use(app_context + '/favicon.ico', express.static(path.join(dir_base, 'public/favicon-32x32.png')));
+app.use(app_context + '/static', express.static(path.join(rootDir, 'public/')));
+app.use(app_context + '/font-awesome', express.static(path.join(rootDir, 'node_modules/font-awesome/')));
+app.use(app_context + '/jquery', express.static(path.join(rootDir, 'node_modules/jquery/dist/')));
+app.use(app_context + '/bootstrap', express.static(path.join(rootDir, 'node_modules/bootstrap/dist/')));
+app.use(app_context + '/css', express.static(path.join(rootDir, 'public/css')));
+app.use(app_context + '/fonts', express.static(path.join(rootDir, 'public/fonts')));
+app.use(app_context + '/js', express.static(path.join(rootDir, 'public/js')));
+app.use(app_context + '/favicon.ico', express.static(path.join(rootDir, 'public/favicon-32x32.png')));
 
 // Make stuff accessible to our router
 app.use(function (req, res, next){
@@ -266,8 +264,7 @@ app.on('uncaughtException', function (err){
 
 // add the connections to the connection pool
 var connection_list = nconf.stores.connections.get('connections');
-var connPool = require('./connections');
-var monitoring = require('./monitoring');
+
 app.locals.dbConnections = null;
 
 async.forEachOf(connection_list, function (value, key, callback){
@@ -293,8 +290,6 @@ async.forEachOf(connection_list, function (value, key, callback){
         app.listen(app_port, app_host, function (){
             console.log('MongoDB_Admin listening on host: http://' + app_host + ':' + app_port + app_context);
 
-            // used for electron to know when express app has started
-            app.emit('startedAdminMongo');
 
             if(nconf.stores.app.get('app:monitoring') !== false){
                 // start the initial monitoring
