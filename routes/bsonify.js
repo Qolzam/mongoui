@@ -6,7 +6,7 @@
 
 'use strict';
 
-var mongodb = require('mongodb');
+import mongodb from 'mongodb'
 
 function f(n){
     // Format integers to have at least two digits.
@@ -138,7 +138,7 @@ function str(key, holder){
     }
 }
 
-exports.stringify = function (value, replacer, space){
+export const stringify =  (value, replacer, space) => {
     var i;
     gap = '';
     indent = '';

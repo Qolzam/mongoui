@@ -2,18 +2,20 @@
   "name": "mongo-admin",
   "version": "0.1.0",
   "description": "A Web GUI to administer MongoDB",
-  "author": "Arash Hatami <hatamiarash7@gmail.com>",
+  "author": "Amirhossein Movahedi <amir.gholzam@live.com>",
   "private": false,
   "main": "app.js",
+  "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hatamiarash7/MongoDB_Admin"
+    "url": "https://github.com/Qolzam/mongoui"
   },
   "bugs": {
-    "url": "https://github.com/hatamiarash7/MongoDB_Admin/issues"
+    "url": "https://github.com/Qolzam/mongoui/issues"
   },
   "scripts": {
     "start": "node app.js",
+    "watch": "node-dev app.js",
     "test": "mocha -R spec --bail --exit ./tests/tests.js",
     "clean": "rm -rf node_modules",
     "reinstall": "npm run clean && npm install",
@@ -49,9 +51,10 @@
     "config": "^1.21.0",
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
-    "express-handlebars": "^3.0.0",
+    "express-handlebars": "^6.0.6",
     "express-session": "^1.16.2",
     "font-awesome": "^4.6.3",
+    "get-port": "^6.1.2",
     "hbs": "^4.0.0",
     "i18n-2": "^0.6.3",
     "jquery": "^3.5.0",
@@ -59,15 +62,16 @@
     "lodash": "^4.17.21",
     "moment": "^2.14.1",
     "mongo-uri": "^0.1.2",
-    "mongodb": "^3.1.13",
+    "mongodb": "^4.10.0",
     "mongodb-backup": "^1.6.4",
     "mongodb-extended-json": "^1.7.0",
     "mongodb-restore": "^1.5.4",
     "morgan": "~1.9.0",
-    "nconf": "^0.8.4",
+    "nconf": "^0.12.0",
     "ncp": "^2.0.0",
     "nedb": "^1.8.0",
     "node-delete": "^0.1.2",
+    "node-dev": "^7.4.3",
     "require.js": "^1.0.0",
     "serve-favicon": "~2.4.3"
   },
@@ -75,11 +79,11 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "colors": "^1.4.0",
-    "eslint": "^4.18.2",
+    "eslint": "^8.24.0",
     "eslint-config-standard": "^5.3.5",
     "eslint-plugin-promise": "^2.0.0",
     "eslint-plugin-standard": "^2.0.0",
-    "jsdom": "^9.4.1",
+    "jsdom": "^20.0.1",
     "mocha": "^6.2.0",
     "mocha-jsdom": "~1.1.0",
     "supertest": "^4.0.2"

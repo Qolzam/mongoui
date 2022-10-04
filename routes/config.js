@@ -2,9 +2,9 @@
  * Copyright (c) 2019. Arash Hatami
  */
 
-var express = require('express');
+import express from 'express'
 var router = express.Router();
-var common = require('./common');
+import * as common from './common.js'
 
 // runs on all routes and checks password if one is setup
 router.all('/config/*', common.checkLogin, function (req, res, next){
@@ -143,4 +143,4 @@ router.post('/config/drop_config', function (req, res, next){
     });
 });
 
-module.exports = router;
+export default router

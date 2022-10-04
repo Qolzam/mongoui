@@ -2,7 +2,7 @@
  * Copyright (c) 2019. Arash Hatami
  */
 
-var _ = require('lodash');
+import _ from 'lodash';
 
 // Removes old monitoring data. We only want basic monitoring with the last 100 events.
 // We keep last 80 and remove the rest to be sure.
@@ -41,10 +41,10 @@ var currDocCounts = {
     updated: 0
 };
 
-exports.serverMonitoring = function (monitoringDB, dbs){
-    if(dbs){
+export const serverMonitoring =  (monitoringDB, dbs)=> {
+    if(dbs && dbs.length){
         Object.keys(dbs).forEach(function (key){
-            var adminDb = dbs[key].native.admin();
+            var adminDb = dbs[key].native.db().admin();
             adminDb.serverStatus(function (err, info){
                 // if we got data back from db. If not, normally related to permissions
                 var dataRetrieved = false;
@@ -53,13 +53,13 @@ exports.serverMonitoring = function (monitoringDB, dbs){
                 }
 
                 // doc numbers. We get the last interval number and subtract the current to get the diff
-                var docCounts = '';
-                var activeClients = '';
-                var pid = 'N/A';
-                var version = 'N/A';
-                var uptime = 'N/A';
-                var connections = '';
-                var memory = '';
+                let docCounts = '';
+                let activeClients = '';
+                let pid = 'N/A';
+                let version = 'N/A';
+                let uptime = 'N/A';
+                let connections = '';
+                let memory = '';
 
                 // set the values if we can get them
                 if(info){

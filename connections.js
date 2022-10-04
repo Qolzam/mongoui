@@ -2,9 +2,9 @@
  * Copyright (c) 2019. Arash Hatami
  */
 
-var MongoClient = require('mongodb').MongoClient;
+import {MongoClient} from "mongodb";
 
-exports.addConnection = function (connection, app, callback){
+export const addConnection =  async (connection, app, callback) => {
     if(!app.locals.dbConnections){
         app.locals.dbConnections = [];
     }
@@ -12,24 +12,23 @@ exports.addConnection = function (connection, app, callback){
     if(!connection.connOptions){
         connection.connOptions = {};
     }
-
-    MongoClient.connect(connection.connString, connection.connOptions, function (err, database){
-        if(err){
-            callback(err, null);
-        }else{
-            var dbObj = {};
-            dbObj.native = database;
-            dbObj.connString = connection.connString;
-            dbObj.connOptions = connection.connOptions;
-
-            app.locals.dbConnections[connection.connName] = null;
-            app.locals.dbConnections[connection.connName] = dbObj;
-            callback(null, null);
-        }
-    });
+    const client = new MongoClient(connection.connString,connection.connOptions);
+    try {
+   const mongoClient =  await client.connect()
+   var dbObj = {};
+   dbObj.native = mongoClient;
+   dbObj.connString = connection.connString;
+   dbObj.connOptions = connection.connOptions;
+   
+   app.locals.dbConnections[connection.connName] = null;
+   app.locals.dbConnections[connection.connName] = dbObj;
+   callback(null, null);
+    } catch (err) {
+       callback(err, null);
+    }
 };
 
-exports.removeConnection = function (connection, app){
+export const removeConnection =  (connection, app) => {
     if(!app.locals.dbConnections){
         app.locals.dbConnections = [];
     }

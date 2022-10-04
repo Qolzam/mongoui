@@ -2,11 +2,11 @@
  * Copyright (c) 2019. Arash Hatami
  */
 
-var express = require('express');
+import express from 'express'
 var router = express.Router();
-var _ = require('lodash');
-var path = require('path');
-var common = require('./common');
+import _ from 'lodash'
+import path from 'node:path'
+import * as common from './common.js'
 
 // runs on all routes and checks password if one is setup
 router.all('/db/*', common.checkLogin, function (req, res, next){
@@ -30,10 +30,10 @@ router.post('/database/:conn/db_create', function (req, res, next){
     }
 
     // Get DB form pool
-    var mongo_db = connection_list[req.params.conn].native.db(req.body.db_name);
-
+    const mongo_db = connection_list[req.params.conn].native.db(req.body.db_name);
+console.log('mongo_db ', mongo_db)
     // adding a new collection to create the DB
-    mongo_db.collection('test').save({}, function (err, docs){
+    mongo_db.collection('test').insertOne({}, function (err, docs){
         if(err){
             console.error('Error creating database: ' + err);
             res.status(400).json({'msg': req.i18n.__('Error creating database') + ': ' + err});
@@ -140,4 +140,4 @@ router.post('/database/:conn/:db/db_restore', function (req, res, next){
     });
 });
 
-module.exports = router;
+export default router

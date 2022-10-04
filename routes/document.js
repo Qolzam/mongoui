@@ -2,10 +2,10 @@
  * Copyright (c) 2019. Arash Hatami
  */
 
-var express = require('express');
+import express from 'express'
 var router = express.Router();
-var _ = require('lodash');
-var common = require('./common');
+import _ from 'lodash'
+import * as common from './common.js'
 
 // runs on all routes and checks password if one is setup
 router.all('/document/*', common.checkLogin, function (req, res, next){
@@ -55,7 +55,7 @@ router.post('/document/:conn/:db/:coll/insert_doc', function (req, res, next){
         });
     }else{
         // just the one document it seems so we call "save"
-        mongo_db.collection(req.params.coll).save(eJsonData, function (err, docs){
+        mongo_db.collection(req.params.coll).insertOne(eJsonData, function (err, docs){
             if(err || docs.ops === undefined){
                 console.error('Error inserting document', err);
                 res.status(400).json({'msg': req.i18n.__('Error inserting document')});
@@ -96,7 +96,7 @@ router.post('/document/:conn/:db/:coll/edit_doc', function (req, res, next){
         return;
     }
 
-    mongo_db.collection(req.params.coll).save(eJsonData, function (err, doc, lastErrorObject){
+    mongo_db.collection(req.params.coll).insertOne(eJsonData, function (err, doc, lastErrorObject){
         if(err){
             console.error('Error updating document: ' + err);
             res.status(400).json({'msg': req.i18n.__('Error updating document') + ': ' + err});
@@ -187,4 +187,4 @@ router.post('/document/:conn/:db/:coll/doc_delete', function (req, res, next){
     });
 });
 
-module.exports = router;
+export default router

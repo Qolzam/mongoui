@@ -2,10 +2,10 @@
  * Copyright (c) 2019. Arash Hatami
  */
 
-var express = require('express');
+import express from 'express'
 var router = express.Router();
-var _ = require('lodash');
-var common = require('./common');
+import _ from 'lodash'
+import * as common from './common.js'
 
 // runs on all routes and checks password if one is setup
 router.all('/collection/*', common.checkLogin, function (req, res, next){
@@ -200,4 +200,4 @@ router.post('/collection/:conn/:db/:coll/drop_index', function (req, res, next){
     });
 });
 
-module.exports = router;
+export default router
