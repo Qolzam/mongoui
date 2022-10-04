@@ -1,7 +1,7 @@
 # MongoDB UI
 
 MongoDB UI is user interface ( GUI ) to handle all your MongoDB connections/databases needs.
-(This project is a fork from [mongoui](https://github.com/hatamiarash7/mongoui) thanks to [Arash Hatami](https://github.com/hatamiarash7/mongoui/commits?author=hatamiarash7))
+(This project is a fork from [mongoui](https://github.com/Qolzam7/mongoui) thanks to [Arash Hatami](https://github.com/Qolzam7/mongoui/commits?author=Qolzam7))
 
 ## Contributing
 
@@ -17,4 +17,4 @@ Each project may have many problems. Contributing to the better development of t
 
 ## License
 
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fhatamiarash7%2Fmongoui.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fhatamiarash7%2Fmongoui?ref=badge_large)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FQolzam7%2Fmongoui.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FQolzam7%2Fmongoui?ref=badge_large)
