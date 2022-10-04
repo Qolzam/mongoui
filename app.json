@@ -1,7 +1,7 @@
 {
   "name": "mongoui",
   "description": "A Web GUI to administer MongoDB",
-  "repository": "https://github.com/Qolzam7/mongoui",
+  "repository": "https://github.com/Qolzam/mongoui",
   "logo": "https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/adminMongo/adminMongo-Logo.png",
   "keywords": [
     "mongo",
