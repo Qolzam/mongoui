@@ -1,5 +1,5 @@
 {
-  "name": "mongo-admin",
+  "name": "mongoui",
   "version": "0.1.0",
   "description": "A Web GUI to administer MongoDB",
   "author": "Amirhossein Movahedi <amir.gholzam@live.com>",
@@ -41,7 +41,7 @@
     "collection",
     "express",
     "open source",
-    "mongo-admin",
+    "mongoui",
     "mongoadmin"
   ],
   "dependencies": {
